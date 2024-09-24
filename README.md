@@ -1,21 +1,12 @@
-lab-generics-maven
-==================
+# mp2 - Fun With Fractions
 
-Code for our lab on Java generics and parametric polymorphism.
+Author: Mina Bakrac
 
-You can run experiments on dynamic arrays with the class
-`edu.grinnell.csc207.experiments.SimpleDynamicArrayExperiments`.
+This mini-project may be found at **Github Link
 
-You can run experiments on predicates and searching with the class
-`edu.grinnell.csc207.experiments.SearchExperiments`.
-
-Authors:
-
-* Samuel A. Rebelsky (original code)
-* Your Name Here (updates)
-* Your Name Here (updates)
-
-The code may be found at <https://github.com/USERNAME/lab-generics-maven>.
-
-The original code this is based on can be found at
-<https://github.com/Grinnell-CSC207/lab-generics-maven>.
+Acknowlegements:
+The Classes Lab found at https://github.com/bakracm/lab-intro-classes-maven.git (by Samuel A. Rebelsky)
+String methods found at https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html
+BigInteger methods found at https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigInteger.html
+Evening tutors - Caelan Bratland
+Individual Tutor - Jayson Kunkel
