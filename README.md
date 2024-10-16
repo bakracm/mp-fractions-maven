@@ -2,7 +2,7 @@
 
 Author: Mina Bakrac
 
-This mini-project may be found at **Github Link
+This mini-project may be found at <https://github.com/bakracm/mp-fractions-maven>
 
 Acknowlegements:
 The Classes Lab found at https://github.com/bakracm/lab-intro-classes-maven.git (by Samuel A. Rebelsky)
