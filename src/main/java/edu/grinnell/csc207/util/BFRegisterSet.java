@@ -11,10 +11,14 @@ public class BFRegisterSet {
   // | Constants |
   // +-----------+
 
-  // Create an array to store 26 fractions (each corresponding to a letter in the alphabet)
-  BigFraction[] Register = new BigFraction[26];
-  
-  // The base value corresponding to "a" in ASCII
+  /**
+   * Create an array to store 26 fractions (each corresponding to a letter in the alphabet).
+   */
+  BigFraction[] registerBf = new BigFraction[26];
+
+  /**
+   * The base value corresponding to "a" in ASCII.
+   */
   int baseVal = 97;
 
   // +---------+------------------------------------------------------
@@ -22,36 +26,34 @@ public class BFRegisterSet {
   // +---------+
 
   /**
-   * Divide a fraction with this fraction
+   * Divide a fraction with this fraction.
    *
    * @param register
-   *   The register in which to store
+   *   The register in which to store.
    * @param val
-   *   The value to be stored
+   *   The value to be stored.
    */
-  public void store(char register, BigFraction val){
+  public void store(char register, BigFraction val) {
     // Find the ASCII value of the register
     int i = Integer.valueOf(register);
-
     // If the register is between a-z, store in the appropriate index
-    if ((i < 123) && (i > 96)){
-        Register[i - baseVal] = val;
-    }
+    if ((i < 123) && (i > 96)) {
+      registerBf[i - baseVal] = val;
+    } // if
   } // store(char, BigFraction)
-  
+
   /**
-   * Access the value (fraction) located in a register
+   * Access the value (fraction) located in a register.
    *
    * @param register
    *   The register to access
    *
    * @return the fraction in the register
    */
-  public BigFraction get(char register){
+  public BigFraction get(char register) {
     // Find the ASCII value of the register
     int i = Integer.valueOf(register);
-
     // return the value at the appropriate index
-    return Register[i - baseVal];
+    return registerBf[i - baseVal];
   } // get(char)
 } // class BFRegisterSet

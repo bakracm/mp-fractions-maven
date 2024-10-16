@@ -2,7 +2,7 @@ package edu.grinnell.csc207.util;
 import java.math.BigInteger;
 
 /**
- * Implementation of fractions using the BigInteger type
+ * Implementation of fractions using the BigInteger type.
  *
  * @author Mina Bakrac
  * @author Sam Rebelsky
@@ -32,14 +32,37 @@ public class BigFraction {
    *   The denominator of the fraction.
    */
   public BigFraction(BigInteger numerator, BigInteger denominator) {
-    this.num = numerator;
-    this.denom = denominator;
+    BigInteger[] arr = simpleNumDenom(numerator, denominator);
+    this.num = arr[0];
+    this.denom = arr[1];
   } // BigFraction(BigInteger, BigInteger)
 
-  public BigFraction(String str){
-    this.num = BigInteger.valueOf(Long.valueOf(str.split("/")[0]));
-    this.denom = BigInteger.valueOf(Long.valueOf(str.split("/")[1]));
-  }
+  /**
+   * Build a new fraction from a string.
+   *
+   * @param str
+   *   The string we are converting to fraction.
+   */
+  public BigFraction(String str) {
+    int wholeNum = 0;
+    BigInteger a;
+    BigInteger b;
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) == '/') {
+        wholeNum = 1;
+      } // if
+    } // for
+    if (wholeNum == 1) {
+      a = BigInteger.valueOf(Long.valueOf(str.split("/")[0]));
+      b = BigInteger.valueOf(Long.valueOf(str.split("/")[1]));
+    } else {
+      a = BigInteger.valueOf(Long.valueOf(str));
+      b = BigInteger.valueOf(1);
+    } // if/else
+    BigInteger[] arr = simpleNumDenom(a, b);
+    this.num = arr[0];
+    this.denom = arr[1];
+  } // BigFraction(String)
 
   /**
    * Build a new fraction with numerator num and denominator denom **INTEGER**.
@@ -50,8 +73,10 @@ public class BigFraction {
    *   The denominator of the fraction.
    */
   public BigFraction(int numerator, int denominator) {
-    this.num = BigInteger.valueOf(numerator);
-    this.denom = BigInteger.valueOf(denominator);
+    BigInteger[] arr =
+      simpleNumDenom(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
+    this.num = arr[0];
+    this.denom = arr[1];
   } // BigFraction(int, int)
 
   // +---------+------------------------------------------------------
@@ -78,14 +103,11 @@ public class BigFraction {
   public BigFraction add(BigFraction addend) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
-
     // The denominator of the result is the product of this object's
     // denominator and addend's denominator
     resultDenominator = this.denom.multiply(addend.denom);
     // The numerator is more complicated
-    resultNumerator =
-      (this.num.multiply(addend.denom)).add(addend.num.multiply(this.denom));
-
+    resultNumerator = (this.num.multiply(addend.denom)).add(addend.num.multiply(this.denom));
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // add(BigFraction)
@@ -101,20 +123,17 @@ public class BigFraction {
   public BigFraction subtract(BigFraction tosub) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
-
     // The denominator of the result is the product of this object's
     // denominator and tosub's's denominator
     resultDenominator = this.denom.multiply(tosub.denom);
     // The numerator is more complicated
-    resultNumerator =
-      (this.num.multiply(tosub.denom)).subtract(tosub.num.multiply(this.denom));
-
+    resultNumerator = (this.num.multiply(tosub.denom)).subtract(tosub.num.multiply(this.denom));
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // subtract(BigFraction)
 
   /**
-   * Multiply a fraction with this fraction
+   * Multiply a fraction with this fraction.
    *
    * @param multfrac
    *   The fraction to multiply.
@@ -124,31 +143,26 @@ public class BigFraction {
   public BigFraction multiply(BigFraction multfrac) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
-
-    // We get the resulting numerators and denominators by multiplying num1 by num2 and denom1 by denom2
+    // Get resulting numerators and denominators by multiplying num1 by num2 and denom1 by denom2
     resultDenominator = this.denom.multiply(multfrac.denom);
     resultNumerator = this.num.multiply(multfrac.num);
-  
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // multiply(BigFraction)
 
   /**
-   * Divide a fraction with this fraction
+   * Divide a fraction with this fraction.
    *
    * @param todiv
    *   The fraction to divide.
-   *
    * @return the result of the division.
    */
   public BigFraction divide(BigFraction todiv) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
-
-    // We get the resulting numerators and denominators by multiplying num1 by denom2 and num2 by denom1
+    // Get resulting numerators and denominators by multiplying num1 by denom2 and num2 by denom1
     resultDenominator = this.denom.multiply(todiv.num);
     resultNumerator = this.num.multiply(todiv.denom);
-  
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // divide(BigFraction)
@@ -156,7 +170,7 @@ public class BigFraction {
   /**
    * Get the denominator of this fraction.
    *
-   * @return the denominator
+   * @return the denominator.
    */
   public BigInteger denominator() {
     return this.denom;
@@ -165,43 +179,46 @@ public class BigFraction {
   /**
    * Get the numerator of this fraction.
    *
-   * @return the numerator
+   * @return the numerator.
    */
   public BigInteger numerator() {
     return this.num;
   } // numerator()
 
   /**
-   * Simplify the fraction by dividing the numerator and denominator by greatest common divisor
+   * Simplify the fraction by dividing the numerator and denominator by greatest common divisor.
    *
-   * @return the simplified fraction
+   * @param numerator
+   *  The numerator of the fraction
+   * @param denominator
+   *  The denominator of the fraction
+   * @return the simplified fraction.
    */
-  public BigFraction simpleFraction(){
-    BigInteger resultNumerator = this.num;
-    BigInteger resultDenominator = this.denom;
-
-    if (this.num.intValue() > this.denom.intValue()){
-      for(int i = this.num.intValue(); i > 0; i--){
-        if ((this.num.intValue() % i == 0) && (this.denom.intValue() % i == 0)){
+  public BigInteger[] simpleNumDenom(BigInteger numerator, BigInteger denominator) {
+    BigInteger resultNumerator = numerator;
+    BigInteger resultDenominator = denominator;
+    if (numerator.intValue() > denominator.intValue()) {
+      for (int i = numerator.intValue(); i > 0; i--) {
+        if ((numerator.intValue() % i == 0) && (denominator.intValue() % i == 0)) {
           resultNumerator = resultNumerator.divide(BigInteger.valueOf(i));
           resultDenominator = resultDenominator.divide(BigInteger.valueOf(i));
-        }
-      }
-    }
-    else if (this.num.intValue() < this.denom.intValue()){
-      for(int i = this.denom.intValue(); i > 0; i--){
-        if ((this.num.intValue() % i == 0) && (this.denom.intValue() % i == 0)){
+        } // if
+      } // for
+    } else if (numerator.intValue() < denominator.intValue()) {
+      for (int i = denominator.intValue(); i > 0; i--) {
+        if ((resultNumerator.intValue() % i == 0) && (resultDenominator.intValue() % i == 0)) {
           resultNumerator = resultNumerator.divide(BigInteger.valueOf(i));
           resultDenominator = resultDenominator.divide(BigInteger.valueOf(i));
-        }
-      }
-    }
-    else{
+        } // if
+      } // for
+    } else {
       resultNumerator = BigInteger.valueOf(1);
       resultDenominator = BigInteger.valueOf(1);
-    }
-
-    return new BigFraction(resultNumerator, resultDenominator);
+    } // if/else
+    BigInteger[] arr = new BigInteger[2];
+    arr[0] = resultNumerator;
+    arr[1] = resultDenominator;
+    return arr;
   } // simpleFraction()
 
    /**
@@ -214,7 +231,9 @@ public class BigFraction {
     if (this.num.equals(BigInteger.ZERO)) {
       return "0";
     } // if it's zero
-
+    if (this.denom.equals(BigInteger.ONE)) {
+      return this.num + "";
+    } // if it's a whole number
     // Lump together the string represention of the numerator,
     // a slash, and the string representation of the denominator
     // return this.num.toString().concat("/").concat(this.denom.toString());

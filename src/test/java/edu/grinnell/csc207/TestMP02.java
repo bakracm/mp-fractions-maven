@@ -537,8 +537,6 @@ public class TestMP02 {
       "E: Independent updates 4ci");
     assertEquals("1/6", registersC.get('j').toString(),
       "E: Independent updates 4cj");
-
   } // testBfrsIndependentUpdate()
-
 } // class TestMP02
 
